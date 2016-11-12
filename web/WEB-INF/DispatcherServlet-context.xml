@@ -12,25 +12,23 @@ http://www.springframework.org/schema/context/spring-context-4.0.xsd
 http://www.springframework.org/schema/mvc
 http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
 
-
-       http://www.springframework.org/schema/task
+http://www.springframework.org/schema/task
        http://www.springframework.org/schema/task/spring-task-4.0.xsd">
-       <task:annotation-driven />
-       <task:executor id="executor" pool-size="10" queue-capacity="100"/>
-       <!--上面四行是SpringMVC的定时器需要的代码-->
 
-       <mvc:annotation-driven />
-       <context:component-scan base-package="com" />
-       <!--<mvc:resources mapping="/css/**" location="/WEB-INF/css/" />-->
-       <!--<mvc:resources mapping="/images/**" location="/WEB-INF/images/" />-->
-       <mvc:resources mapping="/js/**" location="/WEB-INF/js/" />
+       <task:annotation-driven/>
+       <task:executor id="executor" pool-size="10" queue-capacity="100"/>
+       <mvc:annotation-driven/>
+       <context:component-scan base-package="com"/>
+       <!--<mvc:resources mapping="/css/**" location="/WEB-INF/css/"/>-->
+       <!--<mvc:resources mapping="/images/**" location="/WEB-INF/images/"/>-->
+       <mvc:resources mapping="/js/**" location="/WEB-INF/js/"/>
 
        <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-              <property name="prefix" value="/WEB-INF/jsp/" />
-              <property name="suffix" value=".jsp" />
+              <property name="prefix" value="/WEB-INF/jsp/"/>
+              <property name="suffix" value=".jsp"/>
        </bean>
        <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
-              <property name="url" value="jdbc:mysql://101.200.36.235:3306/gutongxue?serverTimezone=GMT "/>
+              <property name="url" value="jdbc:mysql://101.200.36.235:3306/gutongxue?serverTimezone=GMT"/>
               <property name="username" value="root"/>
               <property name="password" value="Grq1994711"/>
 
@@ -51,5 +49,47 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
        </bean>
        <bean id="GtxDao" class="com.gutongxue.www.dao.impl.GtxDaoImpl">
               <property name="dataSource" ref="dataSource"/>
+       </bean>
+       <bean id="taskUtil" class="com.gutongxue.www.utilities.TaskUtil"/>
+       <context:component-scan base-package="com.gutongxue.www.utilities"></context:component-scan>
+       <!--&lt;!&ndash; 配置 文件上传的支持 &ndash;&gt;-->
+       <!--<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">-->
+              <!--&lt;!&ndash; maxUploadSize:文件上传的最大值以byte为单位 &ndash;&gt;-->
+              <!--<property name="maxUploadSize" value="1024000000"/>-->
+              <!--<property name="resolveLazily" value="true"/>-->
+              <!--<property name="maxInMemorySize" value="1024000000"/>-->
+              <!--<property name="defaultEncoding" value="utf-8"/>-->
+       <!--</bean>-->
+       <!--<mvc:interceptors>-->
+              <!--<mvc:interceptor>-->
+                     <!--&lt;!&ndash;设置拦截的路径&ndash;&gt;-->
+                     <!--<mvc:mapping path="/*"/>-->
+                     <!--<bean class="com.cyparty.wm.utilities.UrlInterceptorUtil">-->
+                            <!--&lt;!&ndash;设置不拦截的路径&ndash;&gt;-->
+                            <!--<property name="noCheckUrls">-->
+                                   <!--<list>-->
+                                          <!--<value>/login</value>-->
+                                          <!--<value>/logout</value>-->
+                                          <!--<value>/watermark_download</value>-->
+                                   <!--</list>-->
+                            <!--</property>-->
+                     <!--</bean>-->
+              <!--</mvc:interceptor>-->
+       <!--</mvc:interceptors>-->
+       <!-- 设置json和response的字符编码 -->
+       <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+              <property name="messageConverters">
+                     <list>
+                            <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
+                            <ref bean="stringHttpMessageConverter"/>
+                     </list>
+              </property>
+       </bean>
+       <bean id="stringHttpMessageConverter" class="org.springframework.http.converter.StringHttpMessageConverter">
+              <property name="supportedMediaTypes">
+                     <list>
+                            <value>text/plain;charset=UTF-8</value>
+                     </list>
+              </property>
        </bean>
 </beans>

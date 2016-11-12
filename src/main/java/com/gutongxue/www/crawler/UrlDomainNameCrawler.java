@@ -25,7 +25,7 @@ public class UrlDomainNameCrawler {
         try {
             creatTxtFile("buyableUrl");
             List<String> urlList = getBuyableUrl();
-            for (String url:urlList){
+            for (String url : urlList) {
             }
         } catch (Exception e) {
             e.printStackTrace();

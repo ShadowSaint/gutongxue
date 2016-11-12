@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class TaskUtil {
     @Async
-    public static void task(){
+    public void task(){
         try {
             Thread.sleep(10000);
         } catch (InterruptedException e) {

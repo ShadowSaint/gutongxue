@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UrlDomainNameController {
     @Autowired
     GtxDao gtxDao;
+    @Autowired
+    TaskUtil taskUtil;
     @RequestMapping("/api/url")
     public ResponseEntity<String> getUrl(){
         HttpHeaders responseHeaders = new HttpHeaders();
@@ -25,7 +27,7 @@ public class UrlDomainNameController {
         JSONObject result = new JSONObject();
         String json = "";
         try {
-            TaskUtil.task();
+            taskUtil.task();
             json = ReturnJsonUtil.returnSuccessJsonString(result, "请求成功");
             return new ResponseEntity<String>(json, responseHeaders, HttpStatus.OK);
         }catch (Exception e){
