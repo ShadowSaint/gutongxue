@@ -13,7 +13,7 @@ import java.util.zip.GZIPInputStream;
 public class HtmlUtil {
 
     //发送get方法
-    public static String sendGet(String inputUrl) {
+    public static String sendGet(String inputUrl,String charset) {
         int MAX_TRY=100;
         int index=1;
         StringBuffer html = new StringBuffer();
@@ -43,7 +43,7 @@ public class HtmlUtil {
 
                 // 将参数头的数据写入到输出流中
 
-                InputStreamReader isr = new InputStreamReader(conn.getInputStream(),"gb2312");
+                InputStreamReader isr = new InputStreamReader(conn.getInputStream(),charset);
                 BufferedReader br = new BufferedReader(isr);
                 String temp;
                 while ((temp = br.readLine()) != null) {
@@ -65,7 +65,7 @@ public class HtmlUtil {
     }
 
     //发送get方法
-    public static String sendGetGzip(String inputUrl) {
+    public static String sendGetGzip(String inputUrl,String charset) {
         int MAX_TRY=100;
         int index=1;
         StringBuffer html = new StringBuffer();
@@ -96,7 +96,7 @@ public class HtmlUtil {
                 // 将参数头的数据写入到输出流中
 
                 InputStream bis = new GZIPInputStream(conn.getInputStream());
-                InputStreamReader isr=new InputStreamReader(bis,"gb2312");
+                InputStreamReader isr=new InputStreamReader(bis,charset);
                 BufferedReader br = new BufferedReader(isr);
                 String temp;
                 while ((temp = br.readLine()) != null) {
@@ -118,7 +118,7 @@ public class HtmlUtil {
     }
 
     //发送 http post请求
-    public static String sendPost(String inputUrl,String param) {
+    public static String sendPost(String inputUrl,String param,String charset) {
         int MAX_TRY=100;
         int index=1;
         StringBuffer html = new StringBuffer();
@@ -152,7 +152,7 @@ public class HtmlUtil {
                 conn.getOutputStream().write(param.toString().getBytes());
                 // 将参数头的数据写入到输出流中
 
-                InputStreamReader isr = new InputStreamReader(conn.getInputStream(),"UTF-8");
+                InputStreamReader isr = new InputStreamReader(conn.getInputStream(),charset);
                 BufferedReader br = new BufferedReader(isr);
                 String temp;
                 while ((temp = br.readLine()) != null) {
@@ -173,7 +173,7 @@ public class HtmlUtil {
         return html.toString();
     }
 
-    public static String sendPostGzip(String inputUrl,String param) {
+    public static String sendPostGzip(String inputUrl,String param,String charset) {
         int MAX_TRY=100;
         int index=1;
         StringBuffer html = new StringBuffer();
@@ -207,7 +207,7 @@ public class HtmlUtil {
                 // 将参数头的数据写入到输出流中
 
                 InputStream bis = new GZIPInputStream(conn.getInputStream());
-                InputStreamReader isr=new InputStreamReader(bis,"utf-8");
+                InputStreamReader isr=new InputStreamReader(bis,charset);
                 BufferedReader br = new BufferedReader(isr);
                 String temp;
                 while ((temp = br.readLine()) != null) {
