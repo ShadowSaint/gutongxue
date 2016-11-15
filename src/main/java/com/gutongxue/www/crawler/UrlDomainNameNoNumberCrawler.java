@@ -14,16 +14,16 @@ import java.util.List;
 /**
  * Created by Shadow on 2016/11/11.
  */
-public class UrlDomainNameCrawler {
+public class UrlDomainNameNoNumberCrawler {
     private static String path = "C:/";
     private static String filenameTemp;
     static String items[] = {"", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j",
             "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x",
-            "y", "z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
+            "y", "z"};
 
     public static void main(String[] args) {
         try {
-            creatTxtFile("buyableUrl");
+            creatTxtFile("buyableUrlNoNumber");
             List<String> urlList = getBuyableUrl();
             for (String url : urlList) {
             }

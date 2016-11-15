@@ -5,6 +5,6 @@ package com.gutongxue.www.utilities;
  */
 public class TestUtil {
     public static void main(String[] args) {
-        System.out.println(TimeUtil.getTodayByFormat("yyyyMMddHHmmssSSS"));
+        System.out.println();
     }
 }

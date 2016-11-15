@@ -17,7 +17,7 @@ public class OssUtil {
         try {
             File file = new File(filepath);
             if (file.exists() && file.length() > 0) {
-                String OssUrl= OssUtil.setOssInformation(".png", filepath);
+                String OssUrl= OssUtil.setOssInformation(TimeUtil.getTodayByFormat("yyyyMMddHHmmssSSS")+".gif", filepath);
                 if (OssUrl != null && !OssUrl.equals("")) {
                     return OssUrl;
                 }

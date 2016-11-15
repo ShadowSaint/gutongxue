@@ -8,6 +8,7 @@ public class Image {
     private String url;
     private String description;
     private String date;
+    private int seq;
 
     public int getId() {
         return id;
@@ -39,5 +40,13 @@ public class Image {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public int getSeq() {
+        return seq;
+    }
+
+    public void setSeq(int seq) {
+        this.seq = seq;
     }
 }

@@ -2,9 +2,7 @@ package com.gutongxue.www.crawler;
 
 import com.gutongxue.www.dao.GtxDao;
 import com.gutongxue.www.domain.Image;
-import com.gutongxue.www.utilities.HtmlUtil;
-import com.gutongxue.www.utilities.MailUtil;
-import com.gutongxue.www.utilities.TimeUtil;
+import com.gutongxue.www.utilities.*;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -38,7 +36,14 @@ public class MahuaCrawler {
             while (time!=null&&!time.equals("")&&(time.equals(today)||time.equals(yesterday))){
                 Elements imgElements=document.select("div.joke-content img");
                 if (imgElements.size()>0){
+                    String urlFilePath= ImageUtil.downloadFromUrl(imgElements.first().attr("src"));
+                    String ossUrl= OssUtil.getOSSUrl(urlFilePath);
                     Image image=new Image();
+                    image.setDate(today);
+                    image.setUrl(ossUrl);
+                    image.setSeq((int)( Math.random()*10));
+                    String description=document.select("h1.joke-title").first().text().trim();
+                    image.setDescription(description);
                 }
             }
         }catch (Exception e){
