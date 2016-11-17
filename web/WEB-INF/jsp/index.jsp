@@ -90,6 +90,7 @@
         .nav{
             width: 108rem;
             margin: 0 auto;
+            width: 100%;
             /*拉钩绿:00838a*/
             background-color: #086ED2;
         }
@@ -104,14 +105,27 @@
         .nav li{
             text-align: center;
         }
-
+        .content{
+            width: 108rem;
+            margin: 0 auto;
+            width: 100%;
+            background-color: #F8F8F8;
+        }
+        .content_div{
+            margin: 10px auto;
+            background-color: #FEFEFE;
+            border:1px solid  #DDDDDD;
+            -webkit-box-shadow: #666 0px 0px 10px;
+            -moz-box-shadow: #666 0px 0px 10px;
+            box-shadow: #666 0px 0px 10px;
+        }
     </style>
     <script type="text/javascript">
         var total;
-        var page_list=1;
-        var size=10;
+        var page=0;
+        var size=6;
         $(document).ready(function (){
-            getPage(page_list);
+            getPage(page);
             $(window).scroll(function () {
 
                         var Scroll = $(document).scrollTop();
@@ -123,12 +137,12 @@
                         console.log(WD);
                         if (Scroll + height == WD) {
                             if (total < 10) {
-                                page_list = 1;
+                                page = 0;
                             } else {
-                                if (page_list < Math.ceil(total / size)) {
-                                    page_list++;
-                                    if (page_list != Math.ceil(total / size)) {
-                                        getPage(page_list);
+                                if (page < Math.ceil(total / size)) {
+                                    page++;
+                                    if (page != Math.ceil(total / size)) {
+                                        getPage(page);
                                     }
                                 } else {
                                     $('.not_more').remove();
@@ -140,19 +154,19 @@
                     }
             );
         })
-        function getPage(page_list){
+        function getPage(page){
             $.ajax({
                 type:"POST",
-                url:"/api/joke",
+                url:"/api/joke_list",
                 dataType:'json',
-                data:{page:page_list},
+                data:{page:page,size:size},
                 success: function (data) {
                     console.log(data);
 //                    $('.content').empty();
                     total = data.result.count;
                     for(var i = 0 ;i < data.result.list.length;i++){
-                        var text = data.result.list[i];
-                        $('.content').append('<span>'+text+'</span>');
+                        var text = data.result.list[i].content;
+                        $('.content').append('<div class="content_div">'+text+'</div>');
                     }
                 },
                 error:function(){
@@ -175,11 +189,6 @@
     </ul>
 </nav>
 <div class="content">
-    <span>我：老婆你骨折过吗？
-老婆：有啊！
-我：什么位置？
-老婆：我掉过牙。
-我。。。</span>
 </div>
 </body>
 <script>

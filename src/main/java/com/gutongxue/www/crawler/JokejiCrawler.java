@@ -22,31 +22,38 @@ public class JokejiCrawler {
     GtxDao gtxDao;
 
     /**
-     * 每天凌晨3点执行,抓取昨天的内容
+     * 每天凌晨0点45执行,抓取昨天的内容,
+     * 如果内容为图片,存入图片库,如果内容为笑话,存入笑话库
      */
-    @Scheduled(cron="0 0 3 * * ?")
+    @Scheduled(cron="0 45 0 * * ?")
+//    @Scheduled(cron="0/15 * * * * ?")
     public void getInfo(){
         try {
             String today=TimeUtil.getToday();
-            String yesterdayYearMonth= TimeUtil.getYesterdayByFormat("yyyy-M");
+            String yesterdayYearMonth= TimeUtil.getYesterdayByFormat("yyyy_M");
             String jokeListUrl="http://www.jokeji.cn/DateUpdate_"+yesterdayYearMonth+".htm";
             String jokeListUrlHtml= HtmlUtil.sendGetGzip(jokeListUrl,"gbk");
             Document jokeListDoc= Jsoup.parse(jokeListUrlHtml);
             Elements jokeListElements=jokeListDoc.select("tbody tbody tbody tr");
             String yesterdayYearMonthDay=TimeUtil.getYesterdayByFormat("yyyy-M-d");
             for (Element element:jokeListElements){
-                String date=element.select("span.date").first().text().trim();
+                Elements dateElements=element.select("span.date");
+                if (dateElements.size()==0){
+                    continue;
+                }
+                String date=dateElements.first().text().trim();
                 if (date==null||!date.equals(yesterdayYearMonthDay)){
                     continue;
                 }
                 String jokeUrl=element.select("a").first().attr("href").trim();
+                jokeUrl="http://www.jokeji.cn"+jokeUrl;
                 String jokeUrlHtml= HtmlUtil.sendGetGzip(jokeUrl,"gbk");
                 Document jokeDoc= Jsoup.parse(jokeUrlHtml);
                 Elements jokeElements=jokeDoc.select("p");
-                String jokeContent="";
-                for (Element jokeElement:jokeElements){
-                    jokeContent+=jokeElement.text().trim();
-                }
+                String jokeContent=jokeElements.toString();
+//                for (Element jokeElement:jokeElements){
+//                    jokeContent+=jokeElement.text().trim();
+//                }
                 if (jokeContent!=null&&!jokeContent.equals("")){
                     Joke joke=new Joke();
                     joke.setContent(jokeContent);
@@ -56,7 +63,7 @@ public class JokejiCrawler {
             }
         }catch (Exception e){
             e.printStackTrace();
-            MailUtil.send_email("抓取 http://www.jokeji.cn/ 脚本出错,错误原因:"+e.getMessage());
+            MailUtil.send_email("抓取 http://www.jokeji.cn/ 脚本出错,错误原因:"+e);
         }
 
     }

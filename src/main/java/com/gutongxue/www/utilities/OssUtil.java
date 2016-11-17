@@ -13,11 +13,11 @@ import java.io.InputStream;
 public class OssUtil {
     private static final String IMG_DOWNLOAD_DIR = File.separator + "gutongxue" + File.separator + "images"+ File.separator ;
 
-    public static String getOSSUrl(String filepath){
+    public static String getOSSUrl(String filepath,String format){
         try {
             File file = new File(filepath);
             if (file.exists() && file.length() > 0) {
-                String OssUrl= OssUtil.setOssInformation(TimeUtil.getTodayByFormat("yyyyMMddHHmmssSSS")+".gif", filepath);
+                String OssUrl= OssUtil.setOssInformation(TimeUtil.getTodayByFormat("yyyyMMddHHmmssSSS")+format, filepath);
                 if (OssUrl != null && !OssUrl.equals("")) {
                     return OssUrl;
                 }
@@ -89,5 +89,14 @@ public class OssUtil {
             }
         }
         return uploadSuccess;
+    }
+
+    public static void deleteFileByOssUrl(String url){
+        url=url.replace("http://gutongxue.img-cn-beijing.aliyuncs.com/","").replace("@!watermark","");
+        // 创建OSSClient对象
+        OSSClient client = new OSSClient("oss-cn-beijing.aliyuncs.com", "LTAIlsjUAGJ49G5l", "xsHsEjYplgEvXhHTVimpzVCoTca5JD");
+        if (client.doesObjectExist("gutongxue", url)){
+            client.deleteObject("gutongxue",url);
+        }
     }
 }
