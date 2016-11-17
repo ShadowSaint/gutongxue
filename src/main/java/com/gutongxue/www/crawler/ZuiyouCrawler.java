@@ -23,9 +23,9 @@ public class ZuiyouCrawler {
     GtxDao gtxDao;
 
     /**
-     * 每天凌晨1点15分执行,一次抓20个
+     * 每天凌晨1点执行,一次抓20个
      */
-    @Scheduled(cron="0 15 1 * * ?")
+    @Scheduled(cron="0 0 1 * * ?")
 //        @Scheduled(cron="0/15 * * * * ?")
     public void getInfo(){
         try {

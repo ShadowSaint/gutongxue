@@ -96,6 +96,7 @@ public class DuowanCrawler {
      * 每天凌晨0点15分执行,抓取搞笑gif
      */
     @Scheduled(cron="0 15 0 * * ?")
+//            @Scheduled(cron="0/15 * * * * ?")
     public void getEverydayGifImage(){
         try {
             String today= TimeUtil.getToday();
@@ -103,7 +104,12 @@ public class DuowanCrawler {
             int crawlerProgress=Integer.valueOf(gtxDao.getCrawler("多玩搞笑gif").getProgress());
             //获取今日囧图的html,获取网页上囧图期数的列表
             String listUrl="http://tu.duowan.com/m/bxgif";
-            String listHtml= HtmlUtil.sendGetGzip(listUrl,"utf-8");
+            String listHtml;
+//            try {
+//                listHtml= HtmlUtil.sendGetGzip(listUrl,"utf-8");
+//            }catch (Exception e){
+                listHtml=HtmlUtil.sendGet(listUrl,"utf-8");
+//            }
             Document listDocument= Jsoup.parse(listHtml);
             Elements listElements=listDocument.select("em");
             //对列表从旧到新的遍历

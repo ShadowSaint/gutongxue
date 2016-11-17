@@ -23,10 +23,10 @@ public class MahuaCrawler {
     GtxDao gtxDao;
 
     /**
-     * 每天凌晨1点执行
+     * 每天凌晨0点45执行
      */
 //    @Scheduled(cron="0/15 * * * * ?")
-    @Scheduled(cron="0 0 1 * * ?")
+    @Scheduled(cron="0 45 0 * * ?")
     public void getInfo(){
         try {
             String today= TimeUtil.getToday();
@@ -37,7 +37,7 @@ public class MahuaCrawler {
             String html=HtmlUtil.sendGetGzip(url,"utf-8");
             Document document=Jsoup.parse(html);
             String time=document.select("p[class=\"joke-uname\"] span").first().text().trim().split(" ")[0];
-            while (time!=null&&!time.equals("")&&(time.equals(today)||time.equals(yesterday))){
+            while (time!=null&&!time.equals("")&&time.equals(yesterday)){
                 Elements imgElements=document.select("div.joke-content img");
                 if (imgElements.size()>0){
                     String urlFilePath= ImageUtil.downloadFromUrl(imgElements.first().attr("src"));

@@ -22,10 +22,10 @@ public class JokejiCrawler {
     GtxDao gtxDao;
 
     /**
-     * 每天凌晨0点45执行,抓取昨天的内容,
+     * 每天凌晨0点30执行,抓取昨天的内容,
      * 如果内容为图片,存入图片库,如果内容为笑话,存入笑话库
      */
-    @Scheduled(cron="0 45 0 * * ?")
+    @Scheduled(cron="0 30 0 * * ?")
 //    @Scheduled(cron="0/15 * * * * ?")
     public void getInfo(){
         try {
