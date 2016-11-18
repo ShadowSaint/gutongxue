@@ -27,7 +27,7 @@ public class IndexController {
 
     @RequestMapping("/")
     public String printIndexPage(){
-        return "index";
+        return "joke";
     }
 
     @RequestMapping("/delete")

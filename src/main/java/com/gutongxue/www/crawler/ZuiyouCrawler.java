@@ -66,6 +66,9 @@ public class ZuiyouCrawler {
                         video.setCover(cover);
                         JSONObject markJson=videoJson.getJSONObject(mark);
                         String url=markJson.getString("urlext");
+                        if (url==null||url.equals("")){
+                            continue;
+                        }
                         video.setUrl(url);
                         video.setDate(today);
                         gtxDao.insertVideo(video);

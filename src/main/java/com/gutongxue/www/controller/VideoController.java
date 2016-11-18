@@ -23,6 +23,11 @@ public class VideoController {
     @Autowired
     GtxDao gtxDao;
 
+    @RequestMapping("/video")
+    public String printVideoPage(){
+        return "video";
+    }
+
     @RequestMapping("/api/video_list")
     public ResponseEntity<String> getVideoList(HttpServletRequest request){
         HttpHeaders responseHeaders = new HttpHeaders();
@@ -40,7 +45,7 @@ public class VideoController {
             try {
                 size = Integer.valueOf(request.getParameter("size"));
             } catch (Exception e) {
-                size = 20;
+                size = 6;
             }
             String queryParam="";
             List<Video> videoList=gtxDao.getVideoList(queryParam,page,size);

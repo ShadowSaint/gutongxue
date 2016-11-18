@@ -23,6 +23,11 @@ public class JokeController {
     @Autowired
     GtxDao gtxDao;
 
+    @RequestMapping("/joke")
+    public String printJokePage(){
+        return "joke";
+    }
+
     @RequestMapping("/api/joke_list")
     public ResponseEntity<String> getJokeList(HttpServletRequest request){
         HttpHeaders responseHeaders = new HttpHeaders();
@@ -40,7 +45,7 @@ public class JokeController {
             try {
                 size = Integer.valueOf(request.getParameter("size"));
             } catch (Exception e) {
-                size = 20;
+                size = 6;
             }
             String queryParam="";
             List<Joke> jokeList=gtxDao.getJokeList(queryParam,page,size);

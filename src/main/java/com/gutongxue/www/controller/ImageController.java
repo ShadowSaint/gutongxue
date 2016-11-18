@@ -23,7 +23,12 @@ public class ImageController {
     @Autowired
     GtxDao gtxDao;
 
-    @RequestMapping("/api/image")
+    @RequestMapping("/image")
+    public String printImagePage(){
+        return "image";
+    }
+
+    @RequestMapping("/api/image_list")
     public ResponseEntity<String> getImageList(HttpServletRequest request){
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("Content-Type", "application/json;charset=UTF-8");
@@ -40,7 +45,7 @@ public class ImageController {
             try {
                 size = Integer.valueOf(request.getParameter("size"));
             } catch (Exception e) {
-                size = 20;
+                size = 6;
             }
             String queryParam="";
             List<Image> imageList=gtxDao.getImageList(queryParam,page,size);
