@@ -9,6 +9,8 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+    <%--神马搜索验证网站--%>
+    <meta name="shenma-site-verification" content="dad65031d7f2b7bfa2c391dd04befa4c_1480918795">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport"
@@ -74,16 +76,16 @@
 </head>
 
 <body onload="changeFontSize()">
-<div class="menu" style="position: fixed;bottom:0px;left:0px;width:100%;">
+<div class="menu" style="position: fixed;bottom:0px;left:0px;width:100%;z-index:10000;">
     <ul>
         <li>
-            <a href="/joke"><img src="/images/joke_checked_small.png"></a>
+            <a href="/joke"><img src="/images/joke_checked_small.png" height="40px"></a>
         </li>
         <li>
-            <a href="/image"><img src="/images/image_uncheck_small.png"></a>
+            <a href="/image"><img src="/images/image_uncheck_small.png" height="40px"></a>
         </li>
         <li>
-        <a href="/video"><img src="/images/video_uncheck_small.png"></a>
+        <a href="/video"><img src="/images/video_uncheck_small.png" height="40px"></a>
         </li>
         <div class="clear"></div>
     </ul>

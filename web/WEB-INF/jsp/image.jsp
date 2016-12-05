@@ -77,16 +77,16 @@
 </head>
 
 <body onload="changeFontSize()">
-<div class="menu" style="position: fixed;bottom:0px;left:0px;width:100%;">
+<div class="menu" style="position: fixed;bottom:0px;left:0px;width:100%;z-index:10000;">
     <ul>
         <li>
-            <a href="/joke"><img src="/images/joke_uncheck_small.png"></a>
+            <a href="/joke"><img src="/images/joke_uncheck_small.png" height="40px"></a>
         </li>
         <li>
-            <a href="/image"><img src="/images/image_checked_small.png"></a>
+            <a href="/image"><img src="/images/image_checked_small.png" height="40px"></a>
         </li>
         <li>
-        <a href="/video"><img src="/images/video_uncheck_small.png"></a>
+        <a href="/video"><img src="/images/video_uncheck_small.png" height="40px"></a>
         </li>
         <div class="clear"></div>
     </ul>
