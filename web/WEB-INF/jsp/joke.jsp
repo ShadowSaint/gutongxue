@@ -17,6 +17,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <script src="/js/jquery-3.1.1.min.js" type="text/javascript"></script>
     <title>谷同学--每日更新笑话、囧图、视频</title>
+    <link rel="shortcut icon" href="/images/logo.ico"/>
     <link href="/css/list_css.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript">
         var total;
@@ -85,7 +86,7 @@
             <a href="/image"><img src="/images/image_uncheck_small.png" height="40px"></a>
         </li>
         <li>
-        <a href="/video"><img src="/images/video_uncheck_small.png" height="40px"></a>
+            <a href="/video"><img src="/images/video_uncheck_small.png" height="40px"></a>
         </li>
         <div class="clear"></div>
     </ul>
