@@ -4,14 +4,12 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.gutongxue.www.dao.GtxDao;
-import com.gutongxue.www.domain.Crawler;
+import com.gutongxue.www.domain.CrawlerConfig;
 import com.gutongxue.www.domain.Image;
 import com.gutongxue.www.utilities.*;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -21,22 +19,22 @@ import java.io.File;
  */
 @Component
 public class DuowanCrawler {
-    @Autowired
-    GtxDao gtxDao;
 
     /**
      * 每天凌晨0点1分执行,抓取今日囧图
      */
-    @Scheduled(cron="0 1 0 * * ?")
-//        @Scheduled(cron="0/15 * * * * ?")
-    public void getEverydayImage(){
+    public int getEverydayImage(GtxDao gtxDao){
+        int count=0;
         try {
             String today= TimeUtil.getToday();
             //获取数据库里上次抓到哪一期了
-            int crawlerProgress=Integer.valueOf(gtxDao.getCrawler("多玩今日囧图").getProgress());
+            int crawlerProgress=Integer.valueOf(gtxDao.getCrawlerConfig("多玩今日囧图").getProgress());
             //获取今日囧图的html,获取网页上囧图期数的列表
             String listUrl="http://tu.duowan.com/tag/5037.html";
             String listHtml= HtmlUtil.sendGetGzip(listUrl,"utf-8");
+            if (listHtml==null||listHtml.equals("")){
+                listHtml= HtmlUtil.sendGet(listUrl,"utf-8");
+            }
             Document listDocument= Jsoup.parse(listHtml);
             Elements listElements=listDocument.select("em");
             //对列表从旧到新的遍历
@@ -77,11 +75,12 @@ public class DuowanCrawler {
                         image.setUrl(ossUrl);
                         image.setSeq((int)( Math.random()*10));
                         gtxDao.insertImage(image);
+                        count++;
                     }
-                    Crawler crawler=new Crawler();
-                    crawler.setName("多玩今日囧图");
-                    crawler.setProgress(String.valueOf(itemNumber));
-                    gtxDao.updateCrawler(crawler);
+                    CrawlerConfig crawlerConfig =new CrawlerConfig();
+                    crawlerConfig.setName("多玩今日囧图");
+                    crawlerConfig.setProgress(String.valueOf(itemNumber));
+                    gtxDao.updateCrawler(crawlerConfig);
                 }catch (Exception e){
                     continue;
                 }
@@ -90,26 +89,24 @@ public class DuowanCrawler {
             e.printStackTrace();
             MailUtil.send_email("抓取 多玩图库今日囧图 脚本出错,错误原因:"+e);
         }
+        return count;
     }
 
     /**
      * 每天凌晨0点15分执行,抓取搞笑gif
      */
-    @Scheduled(cron="0 15 0 * * ?")
-//            @Scheduled(cron="0/15 * * * * ?")
-    public void getEverydayGifImage(){
+    public int getEverydayGifImage(GtxDao gtxDao){
+        int count=0;
         try {
             String today= TimeUtil.getToday();
             //获取数据库里上次抓到哪一期了
-            int crawlerProgress=Integer.valueOf(gtxDao.getCrawler("多玩搞笑gif").getProgress());
+            int crawlerProgress=Integer.valueOf(gtxDao.getCrawlerConfig("多玩搞笑gif").getProgress());
             //获取今日囧图的html,获取网页上囧图期数的列表
             String listUrl="http://tu.duowan.com/m/bxgif";
-            String listHtml;
-//            try {
-//                listHtml= HtmlUtil.sendGetGzip(listUrl,"utf-8");
-//            }catch (Exception e){
+            String listHtml=HtmlUtil.sendGetGzip(listUrl,"utf-8");
+            if (listHtml==null||listHtml.equals("")){
                 listHtml=HtmlUtil.sendGet(listUrl,"utf-8");
-//            }
+            }
             Document listDocument= Jsoup.parse(listHtml);
             Elements listElements=listDocument.select("em");
             //对列表从旧到新的遍历
@@ -150,11 +147,12 @@ public class DuowanCrawler {
                         image.setUrl(ossUrl);
                         image.setSeq((int)( Math.random()*10));
                         gtxDao.insertImage(image);
+                        count++;
                     }
-                    Crawler crawler=new Crawler();
-                    crawler.setName("多玩搞笑gif");
-                    crawler.setProgress(String.valueOf(itemNumber));
-                    gtxDao.updateCrawler(crawler);
+                    CrawlerConfig crawlerConfig =new CrawlerConfig();
+                    crawlerConfig.setName("多玩搞笑gif");
+                    crawlerConfig.setProgress(String.valueOf(itemNumber));
+                    gtxDao.updateCrawler(crawlerConfig);
                 }catch (Exception e){
                     continue;
                 }
@@ -163,5 +161,6 @@ public class DuowanCrawler {
             e.printStackTrace();
             MailUtil.send_email("抓取 多玩图库搞笑gif 脚本出错,错误原因:"+e);
         }
+        return count;
     }
 }

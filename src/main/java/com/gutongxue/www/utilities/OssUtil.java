@@ -38,13 +38,14 @@ public class OssUtil {
      */
     private static String setOssInformation(String fileName, String uploadFilePath) {
         String uri = "";
+        String today=TimeUtil.getTodayByFormat("yyyyMMdd");
         // 创建OSSClient对象
         OSSClient client = new OSSClient("oss-cn-beijing.aliyuncs.com", "LTAIlsjUAGJ49G5l", "xsHsEjYplgEvXhHTVimpzVCoTca5JD");
         //上传图片
-        boolean isSuccess= uploadFile(client, "gutongxue", "images/" + fileName, uploadFilePath);
+        boolean isSuccess= uploadFile(client, "gutongxue", "images/"+today+"/"+ fileName, uploadFilePath);
 
         if (isSuccess) {
-            uri = "http://gutongxue.img-cn-beijing.aliyuncs.com/images/" + fileName;
+            uri = "http://gutongxue.img-cn-beijing.aliyuncs.com/images/"+today+"/" + fileName;
         }
         return uri;
     }

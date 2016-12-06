@@ -1,7 +1,7 @@
 package com.gutongxue.www.dao.impl;
 
 import com.gutongxue.www.dao.GtxDao;
-import com.gutongxue.www.domain.Crawler;
+import com.gutongxue.www.domain.CrawlerConfig;
 import com.gutongxue.www.domain.Image;
 import com.gutongxue.www.domain.Joke;
 import com.gutongxue.www.domain.Video;
@@ -45,20 +45,20 @@ public class GtxDaoImpl implements GtxDao {
     }
 
     @Override
-    public Crawler getCrawler(String name) {
+    public CrawlerConfig getCrawlerConfig(String name) {
         try {
             String sql = "select * from gtx_crawler_progress where crawler_name = ? limit 0,1";
-            Crawler crawler= (Crawler) jdbcTemplate.queryForObject(sql,new Object[]{name},new CrawlerMapper());
-            return crawler;
+            CrawlerConfig crawlerConfig = (CrawlerConfig) jdbcTemplate.queryForObject(sql,new Object[]{name},new CrawlerMapper());
+            return crawlerConfig;
         }catch (Exception e){
             return null;
         }
     }
 
     @Override
-    public void updateCrawler(Crawler crawler) {
+    public void updateCrawler(CrawlerConfig crawlerConfig) {
         String sql = "update gtx_crawler_progress set crawler_progress = ? where crawler_name = ?";
-        jdbcTemplate.update(sql,new Object[]{crawler.getProgress(),crawler.getName()});
+        jdbcTemplate.update(sql,new Object[]{crawlerConfig.getProgress(), crawlerConfig.getName()});
     }
 
     @Override

@@ -3,7 +3,7 @@ package com.gutongxue.www.domain;
 /**
  * Created by Shadow on 2016/11/16.
  */
-public class Crawler {
+public class CrawlerConfig {
     private String name;
     private String progress;
 

@@ -18,16 +18,13 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class JokejiCrawler {
-    @Autowired
-    GtxDao gtxDao;
 
     /**
      * 每天凌晨0点30执行,抓取昨天的内容,
      * 如果内容为图片,存入图片库,如果内容为笑话,存入笑话库
      */
-    @Scheduled(cron="0 30 0 * * ?")
-//    @Scheduled(cron="0/15 * * * * ?")
-    public void getInfo(){
+    public int getInfo(GtxDao gtxDao){
+        int count=0;
         try {
             String today=TimeUtil.getToday();
             String yesterdayYearMonth= TimeUtil.getYesterdayByFormat("yyyy_M");
@@ -59,13 +56,14 @@ public class JokejiCrawler {
                     joke.setContent(jokeContent);
                     joke.setDate(today);
                     gtxDao.insertJoke(joke);
+                    count++;
                 }
             }
         }catch (Exception e){
             e.printStackTrace();
             MailUtil.send_email("抓取 http://www.jokeji.cn/ 脚本出错,错误原因:"+e);
         }
-
+        return count;
     }
 
 }

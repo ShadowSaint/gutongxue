@@ -1,6 +1,6 @@
 package com.gutongxue.www.dao;
 
-import com.gutongxue.www.domain.Crawler;
+import com.gutongxue.www.domain.CrawlerConfig;
 import com.gutongxue.www.domain.Image;
 import com.gutongxue.www.domain.Joke;
 import com.gutongxue.www.domain.Video;
@@ -15,8 +15,8 @@ public interface GtxDao {
     void insertJoke(Joke joke);
     void insertImage(Image image);
     void insertVideo(Video video);
-    Crawler getCrawler(String name);
-    void updateCrawler(Crawler crawler);
+    CrawlerConfig getCrawlerConfig(String name);
+    void updateCrawler(CrawlerConfig crawlerConfig);
 
     //内容
     List<Joke> getJokeList(String queryParam,int page,int size);

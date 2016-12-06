@@ -64,7 +64,7 @@ public class ImageController {
             return new ResponseEntity<String>(json, responseHeaders, HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
-            json = ReturnJsonUtil.returnFailJsonString(result, "参数传递错误");
+            json = ReturnJsonUtil.returnFailJsonString(null, "参数传递错误: "+e.getMessage());
             return new ResponseEntity<String>(json, responseHeaders, HttpStatus.OK);
         }
     }

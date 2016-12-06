@@ -19,30 +19,47 @@ import java.util.List;
  */
 @Component
 public class ZuiyouCrawler {
-    @Autowired
-    GtxDao gtxDao;
 
     /**
-     * 每天凌晨1点执行,一次抓20个
+     * 每天凌晨1点执行,一次抓40个
      */
-    @Scheduled(cron="0 0 1 * * ?")
-//        @Scheduled(cron="0/15 * * * * ?")
-    public void getInfo(){
+    public int getInfo(GtxDao gtxDao){
+        int count=0;
         try {
-            int count=0;
             int page=0;
             String today= TimeUtil.getToday();
-            while (count<20){
+            while (count<40){
                 if (page>100){
                     MailUtil.send_email("抓取 最右视频 脚本运行超次,请检查");
                     break;
                 }
                 try {
                     String sourceUrl="http://tbapi.ixiaochuan.cn/index/recommend";
-                    String jsonString= HtmlUtil.sendPost(sourceUrl,"{\"h_model\": \"iPhone 6 Plus\",\"h_ch\": \"appstore\",\"h_ts\": 1479294316361,\"h_av\": \"3.0.4\",\"tab\": \"video\",\"h_did\": \"930882205da5ddfc1a80be5f21f191e9bd618e96\",\"filter\": \"video\",\"h_m\": 8650033,\"h_os\": \"8.200000\",\"h_nt\": 1,\"token\": \"582c3d60277f2816db50218f\",\"h_dt\": 1,\"direction\": \"down\"}","utf-8");
+                    //初步断定,只要没有h_m这个属性,校验就能通过,它应该是控制了过期时间,没有它剩下的全是1都没问题
+                    String jsonString= HtmlUtil.sendPost(sourceUrl,
+                            "{\n" +
+                                    "\t\"offset\": 0,\n" +
+                                    "\t\"filter\": \"video\",\n" +
+                                    "\t\"tab\": \"video\",\n" +
+                                    "\t\"direction\": \"down\",\n" +
+                                    "\t\"auto\": 0,\n" +
+                                    "\t\"h_av\": \"3.1.2\",\n" +
+                                    "\t\"h_dt\": 0,\n" +
+                                    "\t\"h_os\": 23,\n" +
+                                    "\t\"h_model\": \"ZUK Z2121\",\n" +
+                                    "\t\"h_did\": \"1\",\n" +
+                                    "\t\"h_nt\": 1,\n" +
+                                    "\t\"h_ch\": \"lenovo\",\n" +
+                                    "\t\"h_ts\": 1,\n" +
+                                    "\t\"token\": \"1\"\n" +
+                                    "}",
+                            "utf-8");
                     JSONObject apiJson= JSON.parseObject(jsonString);
                     JSONObject dataJson=apiJson.getJSONObject("data");
                     JSONArray listJsonArray=dataJson.getJSONArray("list");
+                    if (listJsonArray.size()==0){
+                        break;
+                    }
                     for (Object object:listJsonArray){
                         JSONObject itemJson= (JSONObject) object;
                         Video video=new Video();
@@ -82,5 +99,6 @@ public class ZuiyouCrawler {
             e.printStackTrace();
             MailUtil.send_email("抓取 最右视频 脚本出错,错误原因:"+e);
         }
+        return count;
     }
 }

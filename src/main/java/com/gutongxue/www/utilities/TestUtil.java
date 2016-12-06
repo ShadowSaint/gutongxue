@@ -13,41 +13,23 @@ import org.jsoup.select.Elements;
 public class TestUtil {
     public static void main(String[] args) {
         String a = "{\n" +
-                "                \"id\":8158909,\n" +
-                "                \"mid\":855684,\n" +
-                "                \"content\":\"某玩家自制一个亚索的一个通关游戏，哈哈哈哈塞给。。痛也给痛！面对疾风吧小学生\",\n" +
-                "                \"reviews\":174,\n" +
-                "                \"likes\":578,\n" +
-                "                \"up\":624,\n" +
-                "                \"ct\":1478358159,\n" +
-                "                \"imgs\":Array[1],\n" +
-                "                \"videos\":{\n" +
-                "                    \"26807016\":{\n" +
-                "                        \"thumb\":26807016,\n" +
-                "                        \"url\":\"http://gslb.miaopai.com/stream/HlHDWTF138tVd-0PcIZEiw__.mp4\",\n" +
-                "                        \"dur\":159,\n" +
-                "                        \"h5url\":\"http://www.miaopai.com/show/HlHDWTF138tVd-0PcIZEiw__.htm\",\n" +
-                "                        \"priority\":1,\n" +
-                "                        \"webinfo\":{\n" +
-                "                            \"url\":\"http://www.miaopai.com/show/HlHDWTF138tVd-0PcIZEiw__.htm\",\n" +
-                "                            \"topheight\":70,\n" +
-                "                            \"height\":359,\n" +
-                "                            \"aspect_ratio\":1\n" +
-                "                        },\n" +
-                "                        \"urlsrc\":\"http://tbvideo.ixiaochuan.cn/zyvd/a9/80/f4bda8c18f5ab92f7cb180e20157\",\n" +
-                "                        \"urlext\":\"http://gslb.miaopai.com/stream/HlHDWTF138tVd-0PcIZEiw__.mp4\"\n" +
-                "                    }\n" +
-                "                },\n" +
-                "                \"status\":2,\n" +
-                "                \"share\":49,\n" +
-                "                \"member\":Object{...},\n" +
-                "                \"topic\":Object{...},\n" +
-                "                \"god_reviews\":Array[1]\n" +
-                "            }";
-        JSONObject jsonObject= JSON.parseObject(a);
-        for (Object o:jsonObject.keySet()){
-            System.out.println(o);
-        }
+                "\t\"offset\": 0,\n" +
+                "\t\"filter\": \"video\",\n" +
+                "\t\"tab\": \"video\",\n" +
+                "\t\"direction\": \"down\",\n" +
+                "\t\"auto\": 0,\n" +
+                "\t\"h_av\": \"3.1.2\",\n" +
+                "\t\"h_dt\": 0,\n" +
+                "\t\"h_os\": 23,\n" +
+                "\t\"h_model\": \"ZUK Z2121\",\n" +
+                "\t\"h_did\": \"861305030160585_02:00:00\",\n" +
+                "\t\"h_nt\": 1,\n" +
+                "\t\"h_m\": 4725996,\n" +
+                "\t\"h_ch\": \"lenovo\",\n" +
+                "\t\"h_ts\": 1481010526422,\n" +
+                "\t\"token\": \""+"5846676a277f28471857abc0"+"\"\n" +
+                "}";
+        System.out.println(a);
     }
 
 }

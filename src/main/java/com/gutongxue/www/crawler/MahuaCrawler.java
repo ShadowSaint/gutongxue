@@ -19,15 +19,12 @@ import java.io.File;
  */
 @Component
 public class MahuaCrawler {
-    @Autowired
-    GtxDao gtxDao;
 
     /**
      * 每天凌晨0点45执行
      */
-//    @Scheduled(cron="0/15 * * * * ?")
-    @Scheduled(cron="0 45 0 * * ?")
-    public void getInfo(){
+    public int getInfo(GtxDao gtxDao){
+        int count=0;
         try {
             String today= TimeUtil.getToday();
             String yesterday=TimeUtil.getYesterdayByFormat("yyyy-MM-dd");
@@ -37,8 +34,16 @@ public class MahuaCrawler {
             String html=HtmlUtil.sendGetGzip(url,"utf-8");
             Document document=Jsoup.parse(html);
             String time=document.select("p[class=\"joke-uname\"] span").first().text().trim().split(" ")[0];
-            while (time!=null&&!time.equals("")&&time.equals(yesterday)){
+            while (time!=null&&!time.equals("")&&(time.equals(today)||time.equals(yesterday))){
                 Elements imgElements=document.select("div.joke-content img");
+                //如果是今天的话,跳过这一条
+                if (time.equals(today)){
+                    url=document.select("div.joke-content").first().attr("onclick").replace("javascript:location.href='","").replace("'","");
+                    html=HtmlUtil.sendGetGzip(url,"utf-8");
+                    document=Jsoup.parse(html);
+                    time=document.select("p[class=\"joke-uname\"] span").first().text().trim().split(" ")[0];
+                    continue;
+                }
                 if (imgElements.size()>0){
                     String urlFilePath= ImageUtil.downloadFromUrl(imgElements.first().attr("src"));
                     String ossUrl;
@@ -55,14 +60,21 @@ public class MahuaCrawler {
                     String description=document.select("h1.joke-title").first().text().trim();
                     image.setDescription(description);
                     gtxDao.insertImage(image);
+                    count++;
                 }else {
                     String content=document.select("div.joke-content").html().trim();
                     Joke joke=new Joke();
                     joke.setContent(content);
                     joke.setDate(today);
                     gtxDao.insertJoke(joke);
+                    count++;
                 }
-                url=document.select("div.joke-content").first().attr("onclick").replace("javascript:location.href='","").replace("'","");
+                String nextUrl=document.select("div.joke-content").first().attr("onclick").replace("javascript:location.href='","").replace("'","");
+                if (nextUrl.equals(url)){
+                    break;
+                }else {
+                    url=nextUrl;
+                }
                 html=HtmlUtil.sendGetGzip(url,"utf-8");
                 document=Jsoup.parse(html);
                 time=document.select("p[class=\"joke-uname\"] span").first().text().trim().split(" ")[0];
@@ -71,5 +83,6 @@ public class MahuaCrawler {
             e.printStackTrace();
             MailUtil.send_email("抓取 http://www.mahua.com/ 脚本出错,错误原因:"+e);
         }
+        return count;
     }
 }
