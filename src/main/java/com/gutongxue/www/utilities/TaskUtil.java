@@ -29,7 +29,7 @@ public class TaskUtil {
         if (!file.exists()){
             file.mkdirs();
         }
-        MailUtil.send_email("已经清除服务器上gutongxue项目产生的图片缓存");
+        MailUtil.send_email("谷同学网站自动轻触服务器上图片缓存","已经清除服务器上gutongxue项目产生的图片缓存");
     }
 
 

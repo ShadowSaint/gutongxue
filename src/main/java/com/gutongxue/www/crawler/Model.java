@@ -24,7 +24,7 @@ public class Model {
 
         }catch (Exception e){
             e.printStackTrace();
-            MailUtil.send_email("抓取 XXXXXXXXX 脚本出错,错误原因:"+e);
+
         }
     }
 }

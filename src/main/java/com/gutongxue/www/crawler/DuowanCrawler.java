@@ -13,6 +13,7 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.util.List;
 
 /**
  * Created by Shadow on 2016/11/16.
@@ -74,20 +75,24 @@ public class DuowanCrawler {
                         }
                         image.setUrl(ossUrl);
                         image.setSeq((int)( Math.random()*10));
+                        List<Image> imageList=gtxDao.getImageList(" and image_description = '"+image.getDescription()+"' ",0,9999999);
+                        if (imageList.size()>0){
+                            continue;
+                        }
                         gtxDao.insertImage(image);
                         count++;
                     }
                     CrawlerConfig crawlerConfig =new CrawlerConfig();
                     crawlerConfig.setName("多玩今日囧图");
                     crawlerConfig.setProgress(String.valueOf(itemNumber));
-                    gtxDao.updateCrawler(crawlerConfig);
+                    gtxDao.updateCrawlerConfig(crawlerConfig);
                 }catch (Exception e){
                     continue;
                 }
             }
         }catch (Exception e){
             e.printStackTrace();
-            MailUtil.send_email("抓取 多玩图库今日囧图 脚本出错,错误原因:"+e);
+            MailUtil.send_email("谷同学网站抓取脚本遇到异常","抓取 多玩图库今日囧图 脚本出错,错误原因:"+e);
         }
         return count;
     }
@@ -146,20 +151,24 @@ public class DuowanCrawler {
                         }
                         image.setUrl(ossUrl);
                         image.setSeq((int)( Math.random()*10));
+                        List<Image> imageList=gtxDao.getImageList(" and image_description = '"+image.getDescription()+"' ",0,9999999);
+                        if (imageList.size()>0){
+                            continue;
+                        }
                         gtxDao.insertImage(image);
                         count++;
                     }
                     CrawlerConfig crawlerConfig =new CrawlerConfig();
                     crawlerConfig.setName("多玩搞笑gif");
                     crawlerConfig.setProgress(String.valueOf(itemNumber));
-                    gtxDao.updateCrawler(crawlerConfig);
+                    gtxDao.updateCrawlerConfig(crawlerConfig);
                 }catch (Exception e){
                     continue;
                 }
             }
         }catch (Exception e){
             e.printStackTrace();
-            MailUtil.send_email("抓取 多玩图库搞笑gif 脚本出错,错误原因:"+e);
+            MailUtil.send_email("谷同学网站抓取脚本遇到异常","抓取 多玩图库搞笑gif 脚本出错,错误原因:"+e);
         }
         return count;
     }

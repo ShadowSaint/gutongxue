@@ -30,7 +30,7 @@ public class ZuiyouCrawler {
             String today= TimeUtil.getToday();
             while (count<40){
                 if (page>100){
-                    MailUtil.send_email("抓取 最右视频 脚本运行超次,请检查");
+                    MailUtil.send_email("谷同学网站抓取脚本遇到异常","抓取 最右视频 脚本运行超次,请检查");
                     break;
                 }
                 try {
@@ -97,7 +97,7 @@ public class ZuiyouCrawler {
             }
         }catch (Exception e){
             e.printStackTrace();
-            MailUtil.send_email("抓取 最右视频 脚本出错,错误原因:"+e);
+            MailUtil.send_email("谷同学网站抓取脚本遇到异常","抓取 最右视频 脚本出错,错误原因:"+e);
         }
         return count;
     }

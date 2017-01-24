@@ -16,7 +16,7 @@ public interface GtxDao {
     void insertImage(Image image);
     void insertVideo(Video video);
     CrawlerConfig getCrawlerConfig(String name);
-    void updateCrawler(CrawlerConfig crawlerConfig);
+    void updateCrawlerConfig(CrawlerConfig crawlerConfig);
 
     //内容
     List<Joke> getJokeList(String queryParam,int page,int size);
@@ -25,4 +25,7 @@ public interface GtxDao {
     int getImageListCount(String queryParam);
     List<Video> getVideoList(String queryParam,int page,int size);
     int getVideoListCount(String queryParam);
+
+    //日志
+    void insertLogCrawler(String time,String content);
 }

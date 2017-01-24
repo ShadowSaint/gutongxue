@@ -25,11 +25,11 @@ public class MailUtil {
         }
     }
 
-    public static void send_email(String content){
+    public static void send_email(String title,String content){
         try {
             //经过一个小时的努力,终于决定告别智障QQ邮箱,是由于QQ邮箱智障的授权码导致的,妈的腿
             String to = "3003277@qq.com";
-            String subject = "谷同学网站抓取脚本遇到异常";
+            String subject = title;
 //            String content = "正文";
             Properties properties = new Properties();
             properties.put("mail.smtp.host", "smtp.163.com");

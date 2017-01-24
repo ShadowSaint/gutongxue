@@ -1,7 +1,9 @@
 package com.gutongxue.www.crawler;
 
 import com.gutongxue.www.dao.GtxDao;
+import com.gutongxue.www.domain.CrawlerConfig;
 import com.gutongxue.www.utilities.MailUtil;
+import com.gutongxue.www.utilities.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -41,8 +43,17 @@ public class Timer {
             ZuiyouCrawler zuiyouCrawler=new ZuiyouCrawler();
             int zuiyouCount=zuiyouCrawler.getInfo(gtxDao);
             Thread.sleep(1000*60);
+            //数据库记录
+            gtxDao.insertLogCrawler(TimeUtil.getTodayByFormat("yyyy-MM-dd HH:mm:ss"),
+                            "今日脚本正常更新完毕\n" +
+                            "多玩每日囧图更新数量为: "+duowanImageCount+"\n"+
+                            "多玩每日gif更新数量为: "+duowanGifCount+"\n"+
+                            "笑话集更新数量为: "+jokejiCount+"\n"+
+                            "开心麻花更新数量为: "+mahuaCount+"\n"+
+                            "最右更新数量为: "+zuiyouCount);
             //发邮件
-            MailUtil.send_email("今日脚本正常更新完毕\n" +
+            MailUtil.send_email("谷同学网站抓取脚本完成",
+                    "今日脚本正常更新完毕\n" +
                     "多玩每日囧图更新数量为: "+duowanImageCount+"\n"+
                     "多玩每日gif更新数量为: "+duowanGifCount+"\n"+
                     "笑话集更新数量为: "+jokejiCount+"\n"+
@@ -50,7 +61,7 @@ public class Timer {
                     "最右更新数量为: "+zuiyouCount);
         }catch (Exception e){
             e.printStackTrace();
-            MailUtil.send_email("运行定时器脚本出错,错误原因:"+e);
+            MailUtil.send_email("谷同学网站抓取脚本遇到异常","运行定时器脚本出错,错误原因:"+e);
         }
     }
 }

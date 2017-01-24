@@ -166,7 +166,7 @@ public class HtmlUtil {
 
                 StringBuilder sb = new StringBuilder();
                 sb.append(param);
-                conn.getOutputStream().write(param.toString().getBytes());
+                conn.getOutputStream().write(param.getBytes(charset));
                 // 将参数头的数据写入到输出流中
 
                 InputStreamReader isr = new InputStreamReader(conn.getInputStream(),charset);
@@ -220,7 +220,7 @@ public class HtmlUtil {
 
                 StringBuilder sb = new StringBuilder();
                 sb.append(param);
-                conn.getOutputStream().write(param.toString().getBytes());
+                conn.getOutputStream().write(param.getBytes(charset));
                 // 将参数头的数据写入到输出流中
 
                 InputStream bis = new GZIPInputStream(conn.getInputStream());

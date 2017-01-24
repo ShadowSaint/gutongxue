@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * Created by Shadow on 2016/11/15.
  */
@@ -55,13 +57,17 @@ public class JokejiCrawler {
                     Joke joke=new Joke();
                     joke.setContent(jokeContent);
                     joke.setDate(today);
+                    List<Joke> jokeList=gtxDao.getJokeList(" and joke_content = '"+jokeContent+"'",0,999999);
+                    if (jokeList.size()>0){
+                        continue;
+                    }
                     gtxDao.insertJoke(joke);
                     count++;
                 }
             }
         }catch (Exception e){
             e.printStackTrace();
-            MailUtil.send_email("抓取 http://www.jokeji.cn/ 脚本出错,错误原因:"+e);
+            MailUtil.send_email("谷同学网站抓取脚本遇到异常","抓取 http://www.jokeji.cn/ 脚本出错,错误原因:"+e);
         }
         return count;
     }

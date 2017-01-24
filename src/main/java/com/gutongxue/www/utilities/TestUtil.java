@@ -12,24 +12,9 @@ import org.jsoup.select.Elements;
  */
 public class TestUtil {
     public static void main(String[] args) {
-        String a = "{\n" +
-                "\t\"offset\": 0,\n" +
-                "\t\"filter\": \"video\",\n" +
-                "\t\"tab\": \"video\",\n" +
-                "\t\"direction\": \"down\",\n" +
-                "\t\"auto\": 0,\n" +
-                "\t\"h_av\": \"3.1.2\",\n" +
-                "\t\"h_dt\": 0,\n" +
-                "\t\"h_os\": 23,\n" +
-                "\t\"h_model\": \"ZUK Z2121\",\n" +
-                "\t\"h_did\": \"861305030160585_02:00:00\",\n" +
-                "\t\"h_nt\": 1,\n" +
-                "\t\"h_m\": 4725996,\n" +
-                "\t\"h_ch\": \"lenovo\",\n" +
-                "\t\"h_ts\": 1481010526422,\n" +
-                "\t\"token\": \""+"5846676a277f28471857abc0"+"\"\n" +
-                "}";
-        System.out.println(a);
+        String a="http://ic.snssdk.com/neihan/stream/mix/v1/?mpic=1&webp=1&essence=1&content_type=-104&message_cursor=-1&count=30&min_time="+System.currentTimeMillis()/1000+"&screen_width=1080&ac=wifi&channel=baidu&aid=7&app_name=joke_essay&device_platform=android&device_type=ZUK+Z2121&device_brand=ZUK&os_api=23&os_version=6.0.1&manifest_version_code=580&resolution=1080*1920&dpi=480";
+        System.out.println(HtmlUtil.sendGetGzip(a,"utf-8"));
+
     }
 
 }

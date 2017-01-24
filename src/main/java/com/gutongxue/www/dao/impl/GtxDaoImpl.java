@@ -56,7 +56,7 @@ public class GtxDaoImpl implements GtxDao {
     }
 
     @Override
-    public void updateCrawler(CrawlerConfig crawlerConfig) {
+    public void updateCrawlerConfig(CrawlerConfig crawlerConfig) {
         String sql = "update gtx_crawler_progress set crawler_progress = ? where crawler_name = ?";
         jdbcTemplate.update(sql,new Object[]{crawlerConfig.getProgress(), crawlerConfig.getName()});
     }
@@ -77,7 +77,7 @@ public class GtxDaoImpl implements GtxDao {
 
     @Override
     public List<Image> getImageList(String queryParam, int page, int size) {
-        String sql = "select * from gtx_base_image where 1=1 "+queryParam+" order by image_date,image_seq desc limit ?,?";
+        String sql = "select * from gtx_base_image where 1=1 "+queryParam+" order by image_id desc limit ?,?";
         List<Image> imageList=jdbcTemplate.query(sql,new Object[]{page*size,size},new ImageMapper());
         return imageList;
     }
@@ -101,5 +101,11 @@ public class GtxDaoImpl implements GtxDao {
         String sql = "select count(*) from gtx_base_video where 1=1 "+queryParam;
         int count = jdbcTemplate.queryForObject(sql,Integer.class);
         return count;
+    }
+
+    @Override
+    public void insertLogCrawler(String time, String content) {
+        String sql = "insert into gtx_log_crawler (log_time,log_content) values (?,?)";
+        jdbcTemplate.update(sql,new Object[]{time,content});
     }
 }

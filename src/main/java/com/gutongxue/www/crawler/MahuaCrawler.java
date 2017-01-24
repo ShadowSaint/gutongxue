@@ -13,6 +13,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.util.List;
 
 /**
  * Created by Shadow on 2016/11/15.
@@ -53,10 +54,17 @@ public class MahuaCrawler {
                     }catch (Exception e){
                         ossUrl= OssUtil.getOSSUrl(urlFilePath,".png")+"@!watermark";
                     }
+                    if (ossUrl.contains("null")){
+                        continue;
+                    }
                     Image image=new Image();
                     image.setDate(today);
                     image.setUrl(ossUrl);
                     image.setSeq((int)( Math.random()*10));
+                    List<Image> imageList=gtxDao.getImageList(" and image_description = '"+image.getDescription()+"' ",0,9999999);
+                    if (imageList.size()>0){
+                        continue;
+                    }
                     String description=document.select("h1.joke-title").first().text().trim();
                     image.setDescription(description);
                     gtxDao.insertImage(image);
@@ -66,6 +74,10 @@ public class MahuaCrawler {
                     Joke joke=new Joke();
                     joke.setContent(content);
                     joke.setDate(today);
+                    List<Joke> jokeList=gtxDao.getJokeList(" and joke_content = '"+content+"'",0,999999);
+                    if (jokeList.size()>0){
+                        continue;
+                    }
                     gtxDao.insertJoke(joke);
                     count++;
                 }
@@ -81,7 +93,7 @@ public class MahuaCrawler {
             }
         }catch (Exception e){
             e.printStackTrace();
-            MailUtil.send_email("抓取 http://www.mahua.com/ 脚本出错,错误原因:"+e);
+            MailUtil.send_email("谷同学网站抓取脚本遇到异常","抓取 http://www.mahua.com/ 脚本出错,错误原因:"+e);
         }
         return count;
     }
