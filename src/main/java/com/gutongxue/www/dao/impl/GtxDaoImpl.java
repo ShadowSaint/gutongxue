@@ -28,20 +28,20 @@ public class GtxDaoImpl implements GtxDao {
 
     @Override
     public void insertJoke(Joke joke) {
-        String sql = "insert into gtx_base_joke (joke_content,joke_date) values (?,?)";
-        jdbcTemplate.update(sql,new Object[]{joke.getContent(),joke.getDate()});
+        String sql = "insert into gtx_base_joke (joke_content,joke_source,gmt_create,gmt_modified) values (?,?,now(),now())";
+        jdbcTemplate.update(sql,new Object[]{joke.getContent(),joke.getSource()});
     }
 
     @Override
     public void insertImage(Image image) {
-        String sql = "insert into gtx_base_image (image_url,image_description,image_date,image_seq) values (?,?,?,?)";
-        jdbcTemplate.update(sql,new Object[]{image.getUrl(),image.getDescription(),image.getDate(),image.getSeq()});
+        String sql = "insert into gtx_base_image (image_url,image_description,image_source,gmt_create,gmt_modified) values (?,?,?,now(),now())";
+        jdbcTemplate.update(sql,new Object[]{image.getUrl(),image.getDescription(),image.getSource()});
     }
 
     @Override
     public void insertVideo(Video video) {
-        String sql = "insert into gtx_base_video (video_url,video_cover,video_description,video_mark,video_date) values (?,?,?,?,?)";
-        jdbcTemplate.update(sql,new Object[]{video.getUrl(),video.getCover(),video.getDescription(),video.getMark(),video.getDate()});
+        String sql = "insert into gtx_base_video (video_url,video_cover,video_description,video_source,gmt_create,gmt_modified) values (?,?,?,?,now(),now())";
+        jdbcTemplate.update(sql,new Object[]{video.getUrl(),video.getCover(),video.getDescription(),video.getSource()});
     }
 
     @Override
@@ -63,7 +63,7 @@ public class GtxDaoImpl implements GtxDao {
 
     @Override
     public List<Joke> getJokeList(String queryParam, int page, int size) {
-        String sql = "select * from gtx_base_joke where 1=1 "+queryParam+" order by joke_date desc limit ?,?";
+        String sql = "select * from gtx_base_joke where 1=1 "+queryParam+" order by gmt_modified desc limit ?,?";
         List<Joke> jokeList=jdbcTemplate.query(sql,new Object[]{page*size,size},new JokeMapper());
         return jokeList;
     }
@@ -77,7 +77,7 @@ public class GtxDaoImpl implements GtxDao {
 
     @Override
     public List<Image> getImageList(String queryParam, int page, int size) {
-        String sql = "select * from gtx_base_image where 1=1 "+queryParam+" order by image_id desc limit ?,?";
+        String sql = "select * from gtx_base_image where 1=1 "+queryParam+" order by gmt_modified desc limit ?,?";
         List<Image> imageList=jdbcTemplate.query(sql,new Object[]{page*size,size},new ImageMapper());
         return imageList;
     }
@@ -91,7 +91,7 @@ public class GtxDaoImpl implements GtxDao {
 
     @Override
     public List<Video> getVideoList(String queryParam, int page, int size) {
-        String sql = "select * from gtx_base_video where 1=1 "+queryParam+" order by video_id desc limit ?,?";
+        String sql = "select * from gtx_base_video where 1=1 "+queryParam+" order by gmt_modified desc limit ?,?";
         List<Video> videoList=jdbcTemplate.query(sql,new Object[]{page*size,size},new VideoMapper());
         return videoList;
     }

@@ -76,20 +76,22 @@ http://www.springframework.org/schema/task
                      <!--</bean>-->
               <!--</mvc:interceptor>-->
        <!--</mvc:interceptors>-->
-       <!-- 设置json和response的字符编码 -->
-       <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
-              <property name="messageConverters">
+       <mvc:annotation-driven>
+              <!--配置@ResponseBody由fastjson解析-->
+              <mvc:message-converters>
+                     <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                            <property name="defaultCharset" value="UTF-8"/>
+                     </bean>
+                     <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter4"/>
+              </mvc:message-converters>
+       </mvc:annotation-driven>
+       <mvc:default-servlet-handler />
+       <bean id="fastJsonpResponseBodyAdvice" class="com.alibaba.fastjson.support.spring.FastJsonpResponseBodyAdvice">
+              <constructor-arg>
                      <list>
-                            <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
-                            <ref bean="stringHttpMessageConverter"/>
+                            <value>callback</value>
+                            <value>jsonp</value>
                      </list>
-              </property>
-       </bean>
-       <bean id="stringHttpMessageConverter" class="org.springframework.http.converter.StringHttpMessageConverter">
-              <property name="supportedMediaTypes">
-                     <list>
-                            <value>text/plain;charset=UTF-8</value>
-                     </list>
-              </property>
+              </constructor-arg>
        </bean>
 </beans>

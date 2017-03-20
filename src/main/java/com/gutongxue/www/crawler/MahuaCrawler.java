@@ -8,6 +8,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -19,12 +21,13 @@ import java.util.List;
  * Created by Shadow on 2016/11/15.
  */
 @Component
-public class MahuaCrawler {
+public class MaHuaCrawler {
+    private static final Logger logger = LoggerFactory.getLogger(MaHuaCrawler.class);
 
     /**
      * 每天凌晨0点45执行
      */
-    public int getInfo(GtxDao gtxDao){
+    public static int getMaHuaInfo(GtxDao gtxDao){
         int count=0;
         try {
             String today= TimeUtil.getToday();
@@ -58,9 +61,8 @@ public class MahuaCrawler {
                         continue;
                     }
                     Image image=new Image();
-                    image.setDate(today);
+                    image.setSource(1);
                     image.setUrl(ossUrl);
-                    image.setSeq((int)( Math.random()*10));
                     List<Image> imageList=gtxDao.getImageList(" and image_description = '"+image.getDescription()+"' ",0,9999999);
                     if (imageList.size()>0){
                         continue;
@@ -72,8 +74,8 @@ public class MahuaCrawler {
                 }else {
                     String content=document.select("div.joke-content").html().trim();
                     Joke joke=new Joke();
+                    joke.setSource(1);
                     joke.setContent(content);
-                    joke.setDate(today);
                     List<Joke> jokeList=gtxDao.getJokeList(" and joke_content = '"+content+"'",0,999999);
                     if (jokeList.size()>0){
                         continue;
@@ -93,7 +95,6 @@ public class MahuaCrawler {
             }
         }catch (Exception e){
             e.printStackTrace();
-            MailUtil.send_email("谷同学网站抓取脚本遇到异常","抓取 http://www.mahua.com/ 脚本出错,错误原因:"+e);
         }
         return count;
     }

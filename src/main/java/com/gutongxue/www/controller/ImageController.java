@@ -54,7 +54,6 @@ public class ImageController {
                 JSONObject imageJsonObject=new JSONObject();
                 imageJsonObject.put("url",image.getUrl());
                 imageJsonObject.put("description",image.getDescription());
-                imageJsonObject.put("date",image.getDate());
                 imageJsonArray.add(imageJsonObject);
             }
             result.put("list",imageJsonArray);

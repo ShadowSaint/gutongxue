@@ -13,12 +13,10 @@ public class VideoMapper implements RowMapper {
     @Override
     public Video mapRow(ResultSet resultSet, int i) throws SQLException {
         Video video=new Video();
-        video.setId(resultSet.getInt("video_id"));
+        video.setId(resultSet.getInt("id"));
         video.setUrl(resultSet.getString("video_url"));
         video.setCover(resultSet.getString("video_cover"));
         video.setDescription(resultSet.getString("video_description"));
-        video.setMark(resultSet.getString("video_mark"));
-        video.setDate(resultSet.getString("video_date").split(" ")[0]);
         return video;
     }
 }

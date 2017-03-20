@@ -1,8 +1,8 @@
 package com.gutongxue.www.controller;
 
-import com.alibaba.fastjson.JSONObject;
-import com.gutongxue.www.utilities.MailUtil;
-import com.gutongxue.www.utilities.ReturnJsonUtil;
+import com.gutongxue.www.utilities.GRQUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,20 +14,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 public class TestController {
-    @RequestMapping("/api/mail")
-    public ResponseEntity<String> sendMail(){
+    private static final Logger LOGGER= LoggerFactory.getLogger(TestController.class);
+    @RequestMapping("/api/test/log")
+    public ResponseEntity<String> apiTestLog(){
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("Content-Type", "application/json;charset=UTF-8");
-        JSONObject result = new JSONObject();
-        String json = "";
+        String jsonString="";
         try {
-            MailUtil.send_email("测试服务器上邮件服务","测试服务器上发送邮件");
-            json = ReturnJsonUtil.returnSuccessJsonString(result, "请求成功");
-            return new ResponseEntity<String>(json, responseHeaders, HttpStatus.OK);
+            LOGGER.info("info级别日志,方法:{}","TestController.apiTestLog()");
+            LOGGER.debug("debug级别日志,方法:{}","TestController.apiTestLog()");
+            LOGGER.error("error级别日志,方法:{}","TestController.apiTestLog()");
+            LOGGER.warn("warn级别日志,方法:{}","TestController.apiTestLog()");
+            jsonString= GRQUtil.returnJsonString("请求成功",true,"日志已经输出");
         }catch (Exception e){
-            e.printStackTrace();
-            json = ReturnJsonUtil.returnFailJsonString(null, "参数传递错误: "+e.getMessage());
-            return new ResponseEntity<String>(json, responseHeaders, HttpStatus.OK);
+            jsonString= GRQUtil.returnJsonString("请求失败",false,e.getMessage());
         }
+        return new ResponseEntity<String>(jsonString,responseHeaders, HttpStatus.OK);
     }
 }

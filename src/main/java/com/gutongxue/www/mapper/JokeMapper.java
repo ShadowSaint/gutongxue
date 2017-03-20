@@ -13,9 +13,8 @@ public class JokeMapper implements RowMapper {
     @Override
     public Joke mapRow(ResultSet resultSet, int i) throws SQLException {
         Joke joke=new Joke();
-        joke.setId(resultSet.getInt("joke_id"));
+        joke.setId(resultSet.getInt("id"));
         joke.setContent(resultSet.getString("joke_content"));
-        joke.setDate(resultSet.getString("joke_date").split(" ")[0]);
         return joke;
     }
 }

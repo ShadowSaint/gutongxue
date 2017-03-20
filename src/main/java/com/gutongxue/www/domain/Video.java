@@ -8,8 +8,9 @@ public class Video {
     private String url;
     private String cover;
     private String description;
-    private String mark;
-    private String date;
+    private int source;//0:内涵段子
+    private String create;
+    private String modified;
 
     public int getId() {
         return id;
@@ -43,19 +44,27 @@ public class Video {
         this.description = description;
     }
 
-    public String getMark() {
-        return mark;
+    public int getSource() {
+        return source;
     }
 
-    public void setMark(String mark) {
-        this.mark = mark;
+    public void setSource(int source) {
+        this.source = source;
     }
 
-    public String getDate() {
-        return date;
+    public String getCreate() {
+        return create;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setCreate(String create) {
+        this.create = create;
+    }
+
+    public String getModified() {
+        return modified;
+    }
+
+    public void setModified(String modified) {
+        this.modified = modified;
     }
 }

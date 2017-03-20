@@ -2,6 +2,10 @@ package com.gutongxue.www.utilities;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 /**
@@ -12,23 +16,23 @@ public class TimeUtil {
 
     }
     public static String getToday(){
-        Date date=new Date();
-        DateFormat format=new SimpleDateFormat("yyyy-MM-dd");
-        return format.format(date);
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(Instant.now(), ZoneId.systemDefault());
+        String format = localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        return format;
     }
     public static String getTodayByFormat(String timeFormat){
-        Date date=new Date();
-        DateFormat format=new SimpleDateFormat(timeFormat);
-        return format.format(date);
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(Instant.now(), ZoneId.systemDefault());
+        String format = localDateTime.format(DateTimeFormatter.ofPattern(timeFormat));
+        return format;
     }
-    public static String getYesterdayByFormat(String format){
+    public static String getYesterdayByFormat(String timeFormat){
         //获取当前日期
         Date date = new Date();
-        SimpleDateFormat sf = new SimpleDateFormat(format);
+        SimpleDateFormat sf = new SimpleDateFormat(timeFormat);
         //通过秒获取下一天日期
         long time = (date.getTime() / 1000) - 60 * 60 * 24;//秒
         date.setTime(time * 1000);//毫秒
-        String tomorrow = sf.format(date).toString();
-        return tomorrow;
+        String yesterday = sf.format(date).toString();
+        return yesterday;
     }
 }

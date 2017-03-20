@@ -53,7 +53,6 @@ public class JokeController {
             for (Joke joke:jokeList){
                 JSONObject jokeJsonObject=new JSONObject();
                 jokeJsonObject.put("content",joke.getContent());
-                jokeJsonObject.put("date",joke.getDate());
                 jokeJsonArray.add(jokeJsonObject);
             }
             result.put("list",jokeJsonArray);

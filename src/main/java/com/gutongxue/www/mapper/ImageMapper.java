@@ -13,10 +13,9 @@ public class ImageMapper implements RowMapper {
     @Override
     public Image mapRow(ResultSet resultSet, int i) throws SQLException {
         Image image=new Image();
-        image.setId(resultSet.getInt("image_id"));
+        image.setId(resultSet.getInt("id"));
         image.setUrl(resultSet.getString("image_url"));
         image.setDescription(resultSet.getString("image_description"));
-        image.setDate(resultSet.getString("image_date").split(" ")[0]);
         return image;
     }
 }

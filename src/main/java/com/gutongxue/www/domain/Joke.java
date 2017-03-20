@@ -6,7 +6,9 @@ package com.gutongxue.www.domain;
 public class Joke {
     private int id;
     private String content;
-    private String date;
+    private int source;//0:joke集/1:开心麻花
+    private String create;
+    private String modified;
 
     public int getId() {
         return id;
@@ -24,11 +26,27 @@ public class Joke {
         this.content = content;
     }
 
-    public String getDate() {
-        return date;
+    public int getSource() {
+        return source;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setSource(int source) {
+        this.source = source;
+    }
+
+    public String getCreate() {
+        return create;
+    }
+
+    public void setCreate(String create) {
+        this.create = create;
+    }
+
+    public String getModified() {
+        return modified;
+    }
+
+    public void setModified(String modified) {
+        this.modified = modified;
     }
 }

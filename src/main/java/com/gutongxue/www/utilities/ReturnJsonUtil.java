@@ -2,6 +2,7 @@ package com.gutongxue.www.utilities;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 
 
 /**
@@ -38,5 +39,7 @@ public class ReturnJsonUtil {
         String jsonString = JSON.toJSONString(item);
         return jsonString;
     }
+
+
 
 }

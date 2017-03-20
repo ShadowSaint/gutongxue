@@ -55,7 +55,6 @@ public class VideoController {
                 videoJsonObject.put("url",video.getUrl());
                 videoJsonObject.put("cover",video.getCover());
                 videoJsonObject.put("description",video.getDescription());
-                videoJsonObject.put("date",video.getDate());
                 videoJsonArray.add(videoJsonObject);
             }
             result.put("list",videoJsonArray);

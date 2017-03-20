@@ -6,10 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.gutongxue.www.dao.GtxDao;
 import com.gutongxue.www.domain.Video;
 import com.gutongxue.www.utilities.HtmlUtil;
-import com.gutongxue.www.utilities.MailUtil;
 import com.gutongxue.www.utilities.TimeUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -30,7 +27,6 @@ public class ZuiyouCrawler {
             String today= TimeUtil.getToday();
             while (count<40){
                 if (page>100){
-                    MailUtil.send_email("谷同学网站抓取脚本遇到异常","抓取 最右视频 脚本运行超次,请检查");
                     break;
                 }
                 try {
@@ -78,7 +74,6 @@ public class ZuiyouCrawler {
                         if (videoList.size()>0){
                             continue;
                         }
-                        video.setMark(mark);
                         String cover="http://tbfile.ixiaochuan.cn/img/view/id/"+mark+"/sz/480x120";
                         video.setCover(cover);
                         JSONObject markJson=videoJson.getJSONObject(mark);
@@ -87,7 +82,6 @@ public class ZuiyouCrawler {
                             continue;
                         }
                         video.setUrl(url);
-                        video.setDate(today);
                         gtxDao.insertVideo(video);
                         count++;
                     }
@@ -97,7 +91,6 @@ public class ZuiyouCrawler {
             }
         }catch (Exception e){
             e.printStackTrace();
-            MailUtil.send_email("谷同学网站抓取脚本遇到异常","抓取 最右视频 脚本出错,错误原因:"+e);
         }
         return count;
     }

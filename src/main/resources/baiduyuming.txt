@@ -1,6 +1,0 @@
-https://cloud.baidu.com/api/bcd/order/search
-headers:
-Content-Type:application/json
-body:
-raw:
-{"keyword":"aaa.com","type":"","mode":"NORMAL"}

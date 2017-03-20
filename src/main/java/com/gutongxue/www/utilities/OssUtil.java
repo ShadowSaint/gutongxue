@@ -11,24 +11,25 @@ import java.io.InputStream;
  * Created by Shadow on 2016/4/28.
  */
 public class OssUtil {
-    private static final String IMG_DOWNLOAD_DIR = File.separator + "gutongxue" + File.separator + "images"+ File.separator ;
+    private static final String IMG_DOWNLOAD_DIR = File.separator + "gutongxue" + File.separator + "images" + File.separator;
 
-    public static String getOSSUrl(String filepath,String format){
+    public static String getOSSUrl(String filepath, String format) {
         try {
             File file = new File(filepath);
             if (file.exists() && file.length() > 0) {
-                String OssUrl= OssUtil.setOssInformation(TimeUtil.getTodayByFormat("yyyyMMddHHmmssSSS")+format, filepath);
+                String OssUrl = OssUtil.setOssInformation(TimeUtil.getTodayByFormat("yyyyMMddHHmmssSSS") + format, filepath);
                 if (OssUrl != null && !OssUrl.equals("")) {
                     return OssUrl;
                 }
             }
             return null;
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
+
     /**
      * 获取上传到OSS的图片连接
      *
@@ -38,14 +39,14 @@ public class OssUtil {
      */
     private static String setOssInformation(String fileName, String uploadFilePath) {
         String uri = "";
-        String today=TimeUtil.getTodayByFormat("yyyyMMdd");
+        String today = TimeUtil.getTodayByFormat("yyyyMMdd");
         // 创建OSSClient对象
         OSSClient client = new OSSClient("oss-cn-beijing.aliyuncs.com", "LTAIlsjUAGJ49G5l", "xsHsEjYplgEvXhHTVimpzVCoTca5JD");
         //上传图片
-        boolean isSuccess= uploadFile(client, "gutongxue", "images/"+today+"/"+ fileName, uploadFilePath);
+        boolean isSuccess = uploadFile(client, "gutongxue", "images/" + today + "/" + fileName, uploadFilePath);
 
         if (isSuccess) {
-            uri = "http://gutongxue.img-cn-beijing.aliyuncs.com/images/"+today+"/" + fileName;
+            uri = "http://gutongxue.img-cn-beijing.aliyuncs.com/images/" + today + "/" + fileName;
         }
         return uri;
     }
@@ -73,18 +74,13 @@ public class OssUtil {
                 ObjectMetadata objectMeta = new ObjectMetadata();
                 objectMeta.setContentLength(file.length());
                 // 可以在metadata中标记文件类型
+                System.out.println("开始上传文件" + filePath);
+                InputStream input = new FileInputStream(file);
+                client.putObject(bucketName, key, input, objectMeta);
+                System.out.println("上传成功!");
+                uploadSuccess = true;
+                break;
 
-                if (!client.doesObjectExist(bucketName, key)) {
-                    System.out.println("开始上传文件" + filePath);
-                    InputStream input = new FileInputStream(file);
-                    client.putObject(bucketName, key, input, objectMeta);
-                    System.out.println("上传成功!");
-                    uploadSuccess = true;
-                    break;
-                } else {
-                    uploadSuccess = true;
-                    break;
-                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -92,12 +88,12 @@ public class OssUtil {
         return uploadSuccess;
     }
 
-    public static void deleteFileByOssUrl(String url){
-        url=url.replace("http://gutongxue.img-cn-beijing.aliyuncs.com/","").replace("@!watermark","");
+    public static void deleteFileByOssUrl(String url) {
+        url = url.replace("http://gutongxue.img-cn-beijing.aliyuncs.com/", "").replace("@!watermark", "");
         // 创建OSSClient对象
         OSSClient client = new OSSClient("oss-cn-beijing.aliyuncs.com", "LTAIlsjUAGJ49G5l", "xsHsEjYplgEvXhHTVimpzVCoTca5JD");
-        if (client.doesObjectExist("gutongxue", url)){
-            client.deleteObject("gutongxue",url);
+        if (client.doesObjectExist("gutongxue", url)) {
+            client.deleteObject("gutongxue", url);
         }
     }
 }
