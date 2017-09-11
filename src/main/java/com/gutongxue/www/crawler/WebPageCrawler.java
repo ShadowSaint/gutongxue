@@ -1,5 +1,6 @@
 package com.gutongxue.www.crawler;
 
+import com.gutongxue.www.utilities.HtmlUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
